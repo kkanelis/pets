@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    
     <div class="container">
         <h1>Ziemassvētku laiks</h1>
         <p>
@@ -88,31 +89,120 @@
     </div>
 
     <div class="container4">
-        <h1>Ziemassvētku laiks - Puzzle Game</h1>
+        <div id="puzzleContainer"></div>
+        <div id="successMessage">Congratulations! Puzzle Solved!</div>
     </div>
 
-    <div class="puzzle-container">
-        <!-- Pieces with randomized positions -->
-        <div class="piece" data-position="0" draggable="true"><img src="png/puzzle/piece_0_0.png" alt="Piece 1"></div>
-        <div class="piece" data-position="1" draggable="true"><img src="png/puzzle/piece_0_1.png" alt="Piece 2"></div>
-        <div class="piece" data-position="2" draggable="true"><img src="png/puzzle/piece_0_2.png" alt="Piece 3"></div>
-        <div class="piece" data-position="3" draggable="true"><img src="png/puzzle/piece_0_3.png" alt="Piece 4"></div>
-        <div class="piece" data-position="4" draggable="true"><img src="png/puzzle/piece_0_4.png" alt="Piece 5"></div>
-        <div class="piece" data-position="5" draggable="true"><img src="png/puzzle/piece_1_0.png" alt="Piece 6"></div>
-        <div class="piece" data-position="6" draggable="true"><img src="png/puzzle/piece_1_1.png" alt="Piece 7"></div>
-        <div class="piece" data-position="7" draggable="true"><img src="png/puzzle/piece_1_2.png" alt="Piece 8"></div>
-        <div class="piece" data-position="8" draggable="true"><img src="png/puzzle/piece_1_3.png" alt="Piece 9"></div>
-        <div class="piece" data-position="9" draggable="true"><img src="png/puzzle/piece_1_4.png" alt="Piece 10"></div>
-        <div class="piece" data-position="10" draggable="true"><img src="png/puzzle/piece_2_0.png" alt="Piece 11"></div>
-        <div class="piece" data-position="11" draggable="true"><img src="png/puzzle/piece_2_1.png" alt="Piece 12"></div>
-        <div class="piece" data-position="12" draggable="true"><img src="png/puzzle/piece_2_2.png" alt="Piece 13"></div>
-        <div class="piece" data-position="13" draggable="true"><img src="png/puzzle/piece_2_3.png" alt="Piece 14"></div>
-        <div class="piece" data-position="14" draggable="true"><img src="png/puzzle/piece_2_4.png" alt="Piece 15"></div>
-    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const puzzleContainer = document.getElementById('puzzleContainer');
+            const successMessage = document.getElementById('successMessage');
     
-    <div id="successMessage">Congratulations! You completed the puzzle!</div>
+            const pieceData = [
+                "piece_0_0.png", "piece_0_1.png", "piece_0_2.png", "piece_0_3.png", "piece_0_4.png",
+                "piece_1_0.png", "piece_1_1.png", "piece_1_2.png", "piece_1_3.png", "piece_1_4.png",
+                "piece_2_0.png", "piece_2_1.png", "piece_2_2.png", "piece_2_3.png", "piece_2_4.png"
+            ];
     
-
+            // Correct positions for the pieces (indexes match the array order)
+            const correctPositions = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+            ];
+    
+            // Add pieces to the puzzle container
+            function addPiecesToPuzzle() {
+                const randomizedPieces = shuffleArray(pieceData.slice()); // Randomize the pieces
+    
+                randomizedPieces.forEach((piece, index) => {
+                    const pieceDiv = document.createElement('div');
+                    pieceDiv.classList.add('piece');
+                    pieceDiv.draggable = true;
+    
+                    // Set the current position for the piece
+                    pieceDiv.dataset.position = index; // This is the current position of the piece
+                    pieceDiv.dataset.correctPosition = correctPositions[index]; // Correct position in the grid
+    
+                    const img = document.createElement('img');
+                    img.src = `png/puzzle/${piece}`;
+                    pieceDiv.appendChild(img);
+                    puzzleContainer.appendChild(pieceDiv);
+    
+                    // Event listeners for drag and drop
+                    pieceDiv.addEventListener('dragstart', dragStart);
+                    pieceDiv.addEventListener('dragover', dragOver);
+                    pieceDiv.addEventListener('drop', drop);
+                    pieceDiv.addEventListener('dragend', dragEnd);
+                });
+            }
+    
+            let draggedPiece = null;
+    
+            function dragStart(e) {
+                draggedPiece = this;
+                this.classList.add('dragging');
+            }
+    
+            function dragOver(e) {
+                e.preventDefault(); // Allow drop
+            }
+    
+            function drop() {
+                if (draggedPiece !== this) {
+                    // Swap positions of the dragged piece and the target piece
+                    const draggedPosition = draggedPiece.dataset.position;
+                    const targetPosition = this.dataset.position;
+    
+                    // Swap the positions in the dataset
+                    draggedPiece.dataset.position = targetPosition;
+                    this.dataset.position = draggedPosition;
+    
+                    // Swap the HTML content (swap the images visually)
+                    const tempHTML = draggedPiece.innerHTML;
+                    draggedPiece.innerHTML = this.innerHTML;
+                    this.innerHTML = tempHTML;
+                }
+    
+                // After swapping, check if the puzzle is solved
+                if (isPuzzleSolved()) {
+                    successMessage.style.display = 'block';
+                }
+            }
+    
+            function dragEnd() {
+                this.classList.remove('dragging');
+            }
+    
+            // Updated isPuzzleSolved function
+            function isPuzzleSolved() {
+                // Check if all pieces are in their correct position
+                return [...puzzleContainer.children].every((piece, index) => {
+                    return parseInt(piece.dataset.position) === correctPositions[index];
+                });
+            }
+    
+            // Shuffle function to randomize the array of pieces
+            function shuffleArray(array) {
+                let currentIndex = array.length, randomIndex, temporaryValue;
+                // While there remain elements to shuffle
+                while (currentIndex !== 0) {
+                    // Pick a remaining element
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+                    // Swap it with the current element
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                }
+                return array;
+            }
+    
+            addPiecesToPuzzle(); // Initialize puzzle
+        });
+    </script>
+    
+    
+    
+    
     
     <script src="script.js"></script>
 </body>

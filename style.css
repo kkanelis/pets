@@ -1,31 +1,40 @@
 /* Basic styles for body and container */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #05171d;
-    color: #333;
+    background: linear-gradient(135deg, #1a3c5b 20%, #005e87 100%); /* Cool blue gradient background */
+    color: #fff;
 }
 
 .container {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #00554f;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background-color: #004d6a; /* Deep blue color for the container */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Darker shadow for depth */
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+.container:hover {
+    transform: scale(1.02); /* Slight scale effect for hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow for hover */
 }
 
 h1 {
     text-align: center;
-    color: white;
+    color: #00b3e6; /* Icy blue text color */
+    font-size: 36px; /* Larger title */
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Glow effect */
 }
 
 p {
     font-size: 18px;
     text-align: justify;
-    color: lightgrey;
+    color: #e0e0e0; /* Light gray for better readability */
 }
 
 .container2 {
@@ -38,55 +47,59 @@ p {
 }
 
 .box {
-    background-color: #00554f;  /* Custom deep teal background */
-    color: white;               /* White text color for better contrast */
-    border: 1px solid #002834;  /* Dark teal border */
-    border-radius: 8px;
+    background-color: #004d6a; /* Cool blue background for boxes */
+    color: white;
+    border: 1px solid #003c4e; /* Dark blue border */
+    border-radius: 12px;
     padding: 20px;
-    width: 42%;  /* Adjusted to fit three items per row */
+    width: 45%;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
-    transition: box-shadow 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
     text-align: center;
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .box:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  /* Darker shadow on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+    border-color: #00b3e6; /* Blue glow on hover */
 }
 
 .box p {
     text-align: center;
     font-size: 16px;
-    color: white;   /* White text color for paragraphs */
+    color: #f0f0f0;
 }
 
 .box-title {
     text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;    /* White title text */
+    font-size: 22px;
+    font-weight: 700;
+    color: #00b3e6; /* Light blue title */
     margin-bottom: 10px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Subtle glow effect */
 }
 
 .box-icon {
-    font-size: 30px;
-    color: #fff;    /* White icon color to match the title and text */
+    font-size: 36px;
+    color: #00b3e6; /* Blue icons for a festive glow */
+    margin-bottom: 10px;
 }
 
 .container3 {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #00554f;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background-color: #004d6a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
 }
 
 .accordion {
-    background-color: #00554f;  /* Custom deep teal background */
-    color: white;               /* White text color for better contrast */
-    border: 1px solid #002834;  /* Dark teal border */
+    background-color: #004d6a;
+    color: white;
+    border: 1px solid #003c4e;
     border-radius: 8px;
     padding: 15px;
     width: 100%;
@@ -95,21 +108,23 @@ p {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .accordion:hover {
-    background-color: #003d47;  /* Darker teal on hover */
+    background-color: #003c4e; /* Darker blue for hover effect */
+    transform: scale(1.02); /* Slight scaling effect */
+    border-color: #00b3e6; /* Blue glow on hover */
 }
 
 .panel {
     display: none;
-    background-color: #003d47;  /* Dark background for panels */
-    color: white;                /* White text */
+    background-color: #003c4e;
+    color: white;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .panel ul {
@@ -127,7 +142,7 @@ p {
 }
 
 .accordion.active {
-    background-color: #003d47;  /* Darker teal when active */
+    background-color: #003c4e; /* Darker blue when active */
 }
 
 .container4 {
@@ -135,62 +150,101 @@ p {
     max-width: 800px;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #00554f;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background-color: #004d6a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
     text-align: center;
+}
+
+/* Snowflake animation */
+@keyframes snowflakes {
+    0% {
+        top: -10px;
+        opacity: 1;
+        transform: translateX(0); /* Start at a random position */
+    }
+    100% {
+        top: 100%; /* Make the snowflakes fall to the bottom */
+        opacity: 0;
+        transform: translateX(calc(100px * (random() - 0.5))); /* Add some horizontal variation */
+    }
+}
+
+/* Style for snowflakes */
+.snowflake {
+    position: absolute;
+    font-size: 16px;
+    color: #00b3e6; /* Snowflakes in icy blue */
+    opacity: 0.8;
+    animation: snowflakes linear infinite;
+    pointer-events: none;
+    user-select: none;
+    z-index: 999;
+    will-change: transform, opacity; /* Improve performance */
+    animation-timing-function: ease-in; /* Smooth animation */
+}
+
+/* Randomize sizes and positions */
+.snowflake:nth-child(odd) {
+    font-size: 12px;
+    animation-duration: 14s;
+    animation-delay: 2s;
+    left: calc(100% * (random() - 0.5)); /* Random horizontal start position */
+}
+
+.snowflake:nth-child(even) {
+    font-size: 18px;
+    animation-duration: 16s;
+    animation-delay: 4s;
+    left: calc(100% * (random() - 0.5)); /* Random horizontal start position */
+}
+
+/* Additional customization for more variation */
+.snowflake:nth-child(3n) {
+    font-size: 20px;
+    animation-duration: 18s;
+    animation-delay: 6s;
 }
 
 /* Puzzle container styles */
-.puzzle-container {
+#puzzleContainer {
     display: grid;
-    grid-template-columns: repeat(5, 100px); /* 5 columns for 5 pieces in a row */
-    grid-template-rows: repeat(4, 100px); /* 4 rows for the 16 pieces */
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(3, 100px);
     gap: 5px;
-    position: relative;
     width: 525px;
-    height: 400px;
-    margin: 40px auto;
+    margin: 20px auto;
 }
+
 .piece {
     width: 100px;
     height: 100px;
+    background-color: #333; /* Darker background for puzzle pieces */
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #00554f;
-    box-sizing: border-box;
+    border: 1px solid #ccc;
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.piece img {
-    width: 100%;
-    height: 100%;
-}
+
 .piece:hover {
-    opacity: 0.8;
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Add shadow on hover */
+    border-color: #00b3e6; /* Blue glow on hover */
 }
 
-/* Dragging Styles */
-.piece.dragging {
-    opacity: 0.5;
+.piece img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
 }
 
-.piece.drag-over {
-    border: 2px dashed white; /* Add a border to indicate the drop area */
-}
-
-/* Success Message Styling */
 #successMessage {
-    display: none;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
     text-align: center;
-    font-size: 18px;
-    border-radius: 5px;
+    display: none;
+    color: #00b3e6;
+    font-size: 20px;
     margin-top: 20px;
-}
-#successMessage.show {
-    display: block;
 }
