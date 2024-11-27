@@ -156,56 +156,6 @@ p {
     text-align: center;
 }
 
-/* Snowflake animation */
-@keyframes snowflakes {
-    0% {
-        top: -10px;
-        opacity: 1;
-        transform: translateX(0); /* Start at a random position */
-    }
-    100% {
-        top: 100%; /* Make the snowflakes fall to the bottom */
-        opacity: 0;
-        transform: translateX(calc(100px * (random() - 0.5))); /* Add some horizontal variation */
-    }
-}
-
-/* Style for snowflakes */
-.snowflake {
-    position: absolute;
-    font-size: 16px;
-    color: #00b3e6; /* Snowflakes in icy blue */
-    opacity: 0.8;
-    animation: snowflakes linear infinite;
-    pointer-events: none;
-    user-select: none;
-    z-index: 999;
-    will-change: transform, opacity; /* Improve performance */
-    animation-timing-function: ease-in; /* Smooth animation */
-}
-
-/* Randomize sizes and positions */
-.snowflake:nth-child(odd) {
-    font-size: 12px;
-    animation-duration: 14s;
-    animation-delay: 2s;
-    left: calc(100% * (random() - 0.5)); /* Random horizontal start position */
-}
-
-.snowflake:nth-child(even) {
-    font-size: 18px;
-    animation-duration: 16s;
-    animation-delay: 4s;
-    left: calc(100% * (random() - 0.5)); /* Random horizontal start position */
-}
-
-/* Additional customization for more variation */
-.snowflake:nth-child(3n) {
-    font-size: 20px;
-    animation-duration: 18s;
-    animation-delay: 6s;
-}
-
 /* Puzzle container styles */
 #puzzleContainer {
     display: grid;
@@ -247,4 +197,60 @@ p {
     color: #00b3e6;
     font-size: 20px;
     margin-top: 20px;
+}
+
+/* Container for success message */
+#successMessage {
+    text-align: center;
+    background-color: #004d6a; /* Deep teal background */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Input Field */
+#username {
+    width: 80%; /* 80% width for a more consistent look */
+    padding: 10px;
+    margin-top: 20px;
+    border: 2px solid #003d47; /* Dark teal border */
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+/* Input Field Focus */
+#username:focus {
+    border-color: #00b3e6; /* Light blue border on focus */
+    outline: none;
+}
+
+/* Button */
+#saveTimeBtn {
+    padding: 10px 20px;
+    background-color: #00b3e6; /* Light blue background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button Hover */
+#saveTimeBtn:hover {
+    background-color: #009ac1; /* Slightly darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Button Focus */
+#saveTimeBtn:focus {
+    outline: none;
 }
