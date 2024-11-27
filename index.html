@@ -95,7 +95,7 @@
         <div id="successMessage">
             Apsveicu tu saliki puzli! Vai velies savu laiku saglabat?
             <br>
-            <input type="text" id="username" placeholder="Tavs vārds">
+            <input type="text" name="username "id="username" placeholder="Tavs vārds">
             <button id="saveTimeBtn">Saglabāt laiku</button>
         </div>
     </div>
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Set the current position for the piece
             pieceDiv.dataset.position = index; // This is the current position of the piece
-            pieceDiv.dataset.correctPosition = correctPositions[index]; // Correct position in the grid
+            pieceDiv.dataset.correctPosition = index; // Correct position in the grid
 
             const img = document.createElement('img');
             img.src = `png/puzzle/${piece}`;
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function isPuzzleSolved() {
         // Check if all pieces are in their correct position
         return [...puzzleContainer.children].every((piece, index) => {
-            // Ensure type match (parseInt for comparison)
+            // Ensure that the position matches the correct one
             return parseInt(piece.dataset.position) === correctPositions[index];
         });
     }
@@ -237,20 +237,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`; // Update the timer display
             }
 
-            // Send the data to the server when the user clicks the "Save Time" button
             saveTimeBtn.addEventListener('click', function() {
                 const username = usernameInput.value;
                 const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
                 const minutes = Math.floor(elapsedTime / 60);
                 const seconds = elapsedTime % 60;
                 const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
                 if (username.trim() !== "") {
                     // Create a new FormData object
                     const formData = new FormData();
                     formData.append("username", username);
                     formData.append("time", timeFormatted);
-
                     // Send the data via AJAX
                     fetch("savetime.php", {
                         method: "POST",
