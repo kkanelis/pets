@@ -100,168 +100,168 @@
         </div>
     </div>
 
+
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const puzzleContainer = document.getElementById('puzzleContainer');
-    const successMessage = document.getElementById('successMessage');
-    const timerDisplay = document.getElementById('timer'); // Timer display element
-    const saveTimeBtn = document.getElementById('saveTimeBtn');
-    const usernameInput = document.getElementById('username'); // Username input
+    document.addEventListener("DOMContentLoaded", function () {
+        const puzzleContainer = document.getElementById('puzzleContainer');
+        const successMessage = document.getElementById('successMessage');
+        const timerDisplay = document.getElementById('timer'); // Timer display element
+        const saveTimeBtn = document.getElementById('saveTimeBtn');
+        const usernameInput = document.getElementById('username'); // Username input
 
-    const pieceData = [
-        "piece_0_0.png", "piece_0_1.png", "piece_0_2.png", "piece_0_3.png", "piece_0_4.png",
-        "piece_1_0.png", "piece_1_1.png", "piece_1_2.png", "piece_1_3.png", "piece_1_4.png",
-        "piece_2_0.png", "piece_2_1.png", "piece_2_2.png", "piece_2_3.png", "piece_2_4.png"
-    ];
+        const pieceData = [
+            "piece_0_0.png", "piece_0_1.png", "piece_0_2.png", "piece_0_3.png", "piece_0_4.png",
+            "piece_1_0.png", "piece_1_1.png", "piece_1_2.png", "piece_1_3.png", "piece_1_4.png",
+            "piece_2_0.png", "piece_2_1.png", "piece_2_2.png", "piece_2_3.png", "piece_2_4.png"
+        ];
 
-    // Correct positions for the pieces (indexes match the array order)
-    const correctPositions = [
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-    ];
+        // Correct positions for the pieces (indexes match the array order)
+        const correctPositions = [...Array(pieceData.length).keys()];
 
-    // Add pieces to the puzzle container
-    function addPiecesToPuzzle() {
-        const randomizedPieces = shuffleArray(pieceData.slice()); // Randomize the pieces
+        // Add pieces to the puzzle container
+        function addPiecesToPuzzle() {
+            const randomizedPieces = shuffleArray(pieceData.slice()); // Randomize the pieces
 
-        randomizedPieces.forEach((piece, index) => {
-            const pieceDiv = document.createElement('div');
-            pieceDiv.classList.add('piece');
-            pieceDiv.draggable = true;
+            randomizedPieces.forEach((piece, index) => {
+                const pieceDiv = document.createElement('div');
+                pieceDiv.classList.add('piece');
+                pieceDiv.draggable = true;
 
-            // Set the current position for the piece
-            pieceDiv.dataset.position = index; // This is the current position of the piece
-            pieceDiv.dataset.correctPosition = correctPositions[index]; // Correct position in the grid
+                // Set the current position for the piece
+                pieceDiv.dataset.position = index; // This is the current position of the piece
+                pieceDiv.dataset.correctPosition = correctPositions[index]; // Correct position in the grid
 
-            const img = document.createElement('img');
-            img.src = `png/puzzle/${piece}`;
-            pieceDiv.appendChild(img);
-            puzzleContainer.appendChild(pieceDiv);
+                const img = document.createElement('img');
+                img.src = `png/puzzle/${piece}`;
+                pieceDiv.appendChild(img);
+                puzzleContainer.appendChild(pieceDiv);
 
-            // Event listeners for drag and drop
-            pieceDiv.addEventListener('dragstart', dragStart);
-            pieceDiv.addEventListener('dragover', dragOver);
-            pieceDiv.addEventListener('drop', drop);
-            pieceDiv.addEventListener('dragend', dragEnd);
-        });
-    }
-
-    let draggedPiece = null;
-    let timerStarted = false;
-    let startTime = null;
-    let timerInterval = null;
-
-    function dragStart(e) {
-        draggedPiece = this;
-        this.classList.add('dragging');
-
-        if (!timerStarted) {
-            // Start the timer when the first piece is moved
-            startTime = Date.now();
-            timerInterval = setInterval(updateTimer, 1000); // Update every second
-            timerStarted = true;
-        }
-    }
-
-    function dragOver(e) {
-        e.preventDefault(); // Allow drop
-    }
-
-    function drop() {
-        if (draggedPiece !== this) {
-            // Swap positions of the dragged piece and the target piece
-            const draggedPosition = draggedPiece.dataset.position;
-            const targetPosition = this.dataset.position;
-
-            // Swap the positions in the dataset
-            draggedPiece.dataset.position = targetPosition;
-            this.dataset.position = draggedPosition;
-
-            // Swap the HTML content (swap the images visually)
-            const tempHTML = draggedPiece.innerHTML;
-            draggedPiece.innerHTML = this.innerHTML;
-            this.innerHTML = tempHTML;
-
-            // Optionally, update images if needed (e.g., to highlight swaps)
-            draggedPiece.querySelector('img').src = `png/puzzle/${pieceData[draggedPosition]}`;
-            this.querySelector('img').src = `png/puzzle/${pieceData[targetPosition]}`;
-        }
-
-        // After swapping, check if the puzzle is solved
-        if (isPuzzleSolved()) {
-            successMessage.style.display = 'block';
-            clearInterval(timerInterval); // Stop the timer when puzzle is solved
-        }
-    }
-
-    function dragEnd() {
-        this.classList.remove('dragging');
-    }
-
-    // Updated isPuzzleSolved function
-    function isPuzzleSolved() {
-        // Check if all pieces are in their correct position
-        return [...puzzleContainer.children].every((piece, index) => {
-            return parseInt(piece.dataset.position) === correctPositions[index];
-        });
-    }
-
-    // Shuffle function to randomize the array of pieces
-    function shuffleArray(array) {
-        let currentIndex = array.length, randomIndex, temporaryValue;
-        // While there remain elements to shuffle
-        while (currentIndex !== 0) {
-            // Pick a remaining element
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            // Swap it with the current element
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-        return array;
-    }
-
-    // Timer Update Function
-    function updateTimer() {
-        const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
-        const minutes = Math.floor(elapsedTime / 60);
-        const seconds = elapsedTime % 60;
-        timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`; // Update the timer display
-    }
-
-    // Send the data to the server when the user clicks the "Save Time" button
-    saveTimeBtn.addEventListener('click', function() {
-        const username = usernameInput.value;
-        const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
-        const minutes = Math.floor(elapsedTime / 60);
-        const seconds = elapsedTime % 60;
-        const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-        if (username.trim() !== "") {
-            // Create a new FormData object
-            const formData = new FormData();
-            formData.append("username", username);
-            formData.append("time", timeFormatted);
-
-            // Send the data via AJAX
-            fetch("savetime.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Server Response: " + data); // Log the server's response
-            })
-            .catch(error => {
-                console.error("Error saving time: ", error);
+                // Event listeners for drag and drop
+                pieceDiv.addEventListener('dragstart', dragStart);
+                pieceDiv.addEventListener('dragover', dragOver);
+                pieceDiv.addEventListener('drop', drop);
+                pieceDiv.addEventListener('dragend', dragEnd);
             });
-        } else {
-            alert("Lūdzu ievadi savu vārdu!");
         }
-    });
 
-    addPiecesToPuzzle(); // Initialize puzzle
-});
+        let draggedPiece = null;
+        let timerStarted = false;
+        let startTime = null;
+        let timerInterval = null;
+
+        function dragStart(e) {
+            draggedPiece = this;
+            this.classList.add('dragging');
+
+            if (!timerStarted) {
+                // Start the timer when the first piece is moved
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 1000); // Update every second
+                timerStarted = true;
+            }
+        }
+
+        function dragOver(e) {
+            e.preventDefault(); // Allow drop
+        }
+
+        function drop() {
+            if (draggedPiece !== this) {
+                // Swap positions of the dragged piece and the target piece
+                const draggedPosition = draggedPiece.dataset.position;
+                const targetPosition = this.dataset.position;
+
+                // Swap the positions in the dataset
+                draggedPiece.dataset.position = targetPosition;
+                this.dataset.position = draggedPosition;
+
+                // Swap the HTML content (swap the images visually)
+                const draggedImg = draggedPiece.querySelector('img');
+                const targetImg = this.querySelector('img');
+
+                // Swap the image elements' sources directly
+                const tempSrc = draggedImg.src;
+                draggedImg.src = targetImg.src;
+                targetImg.src = tempSrc;
+            }
+
+            // After swapping, check if the puzzle is solved
+            if (isPuzzleSolved()) {
+                successMessage.style.display = 'block';
+                clearInterval(timerInterval); // Stop the timer when puzzle is solved
+            }
+        }
+
+        function dragEnd() {
+            this.classList.remove('dragging');
+        }
+
+        // Updated isPuzzleSolved function
+        function isPuzzleSolved() {
+            // Check if all pieces are in their correct position
+            return [...puzzleContainer.children].every((piece, index) => {
+                return parseInt(piece.dataset.position) === correctPositions[index];
+            });
+        }
+
+        // Shuffle function to randomize the array of pieces
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex, temporaryValue;
+            // While there remain elements to shuffle
+            while (currentIndex !== 0) {
+                // Pick a remaining element
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                // Swap it with the current element
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
+
+        addPiecesToPuzzle(); // Initialize puzzle
+
+            // Timer Update Function
+            function updateTimer() {
+                const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+                const minutes = Math.floor(elapsedTime / 60);
+                const seconds = elapsedTime % 60;
+                timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`; // Update the timer display
+            }
+
+            // Send the data to the server when the user clicks the "Save Time" button
+            saveTimeBtn.addEventListener('click', function() {
+                const username = usernameInput.value;
+                const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+                const minutes = Math.floor(elapsedTime / 60);
+                const seconds = elapsedTime % 60;
+                const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (username.trim() !== "") {
+                    // Create a new FormData object
+                    const formData = new FormData();
+                    formData.append("username", username);
+                    formData.append("time", timeFormatted);
+
+                    // Send the data via AJAX
+                    fetch("savetime.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log("Server Response: " + data); // Log the server's response
+                    })
+                    .catch(error => {
+                        console.error("Error saving time: ", error);
+                    });
+                } else {
+                    alert("Lūdzu ievadi savu vārdu!");
+                }
+            });
+
+        });
 
     </script>
     

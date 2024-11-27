@@ -199,6 +199,12 @@ p {
     margin-top: 20px;
 }
 
+#timer {
+    font-size: 20px;
+    text-align: center;
+    color: #e0e0e0; /* Light gray for better readability */
+}
+
 /* Container for success message */
 #successMessage {
     text-align: center;
